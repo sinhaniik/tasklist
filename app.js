@@ -9,6 +9,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // INCLUDE EJS TO OUR EXPRESS APP
 app.set('view engine', 'ejs');
 
+// USE STATIC FILES INSIDE OUR EXPRESS APP
+app.use(express.static('public'));
+
 // THE ITEM ARRAY THIS IS FOR WHEN THE USER ADDED NEW ITEM TO THE LIST
 let items = [];
 
@@ -17,7 +20,6 @@ app.get('/', (req, res) => {
 	let value = {
 		day: 'numeric',
 		weekday: 'long',
-		year: 'numeric',
 		month: 'long'
 	};
 	const d = new Date();
