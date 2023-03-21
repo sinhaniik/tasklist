@@ -1,7 +1,19 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require( 'mongoose' );
+
+mongoose.connect( 'mongodb://127.0.0.1:27017/taskDB' ,
+  { useNewUrlParser: true , useUnifiedTopology: true } );
+
 
 const app = express();
+const { Schema } = mongoose;
+
+const taskSchema = new Schema( {
+	name: String
+} );
+
+const Task = mongoose.model( 'Task' , taskSchema );
 
 // INCLUDE BODY PARSER TO OUR CODE
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -12,25 +24,33 @@ app.set('view engine', 'ejs');
 // USE STATIC FILES INSIDE OUR EXPRESS APP
 app.use(express.static('public'));
 
-// THE ITEM ARRAY THIS IS FOR WHEN THE USER ADDED NEW ITEM TO THE LIST
-let items = [];
-
-// FOR WORK REALTED ITEMS TO BE ADDED
+// FOR WORK RELATED ITEMS TO BE ADDED
 let workList = [];
 
-// WHEN PAGE GETS LOADED THIS BLOCL OF CODE EXECUTES
-app.get('/', (req, res) => {
-	let value = {
-		day: 'numeric',
-		weekday: 'long',
-		month: 'long'
+const task1 = new Task( {
+	name: 'eat' ,
+} );
+
+const task2 = new Task( {
+	name: 'sleep' ,
+} );
+
+const task3 = new Task( {
+	name: 'work' ,
+} );
+
+let task = [ task1 , task2 , task3 ];
+// ;
+// WHEN PAGE GETS LOADED THIS BLOCK OF CODE EXECUTES
+app.get( '/' , ( req , res ) => {
+	const dataRead = async () => {
+		const dataFind = await Task.find( {} );
+		console.log( dataFind );
+		res.render( 'list' , { mainHeading: 'Today' , newItem: dataFind } );
 	};
-	const d = new Date();
+	dataRead();
+} );
 
-	const todayDate = d.toLocaleDateString('en-US', value);
-
-	res.render('list', { mainHeading: todayDate, newItem: items });
-});
 
 // TO POST IT TO THE SERVER
 app.post('/', (req, res) => {

@@ -5,10 +5,10 @@
 </div>
 
 <div class="box">
-	<% for(let i = 0 ; i < newItem.length; i++){ %>
+	<% for( item of newItem){ %>
 	<div class="item">
 		<input type="checkbox" />
-		<p><%= newItem[i] %></p>
+		<p><%= item.name %></p>
 	</div>
 	<% } %>
 
@@ -16,7 +16,7 @@
 
 	<form action="/" class="item" method="post">
 		<label for="name"></label>
-		<input name="name" type="text" / placeholder="new items" autocomplete="off">
+		<input name="name" type="text" placeholder="new items" autocomplete="off" />
 		<button type="submit" name="list" value="<%= mainHeading %>">+</button>
 	</form>
 </div>
