@@ -44,9 +44,14 @@ let task = [ task1 , task2 , task3 ];
 // WHEN PAGE GETS LOADED THIS BLOCK OF CODE EXECUTES
 app.get( '/' , ( req , res ) => {
 	const dataRead = async () => {
-		const dataFind = await Task.find( {} );
-		console.log( dataFind );
-		res.render( 'list' , { mainHeading: 'Today' , newItem: dataFind } );
+		
+		if ( task.length === 0 ) {
+			task.insertMany( task );
+		} else {
+			const dataFind = await Task.find( {} );
+			res.render( 'list' , { mainHeading: 'Today' , newItem: dataFind } );
+		}
+		
 	};
 	dataRead();
 } );
@@ -54,32 +59,19 @@ app.get( '/' , ( req , res ) => {
 
 // TO POST IT TO THE SERVER
 app.post('/', (req, res) => {
-	const list = req.body.list;
-
-	// TO CHECK THE TYPE OF LIST SO THAT I CAN DECIDE IT BELONGS TO THE HOME ROUTE OR /work ROUTE
-	if (list === 'Work List') {
-		const name = req.body.name;
-		workList.push(name);
-		res.redirect('/work');
-	} else {
-		const name = req.body.name;
-		items.push(name);
-		res.redirect('/');
-	}
+	const list = new Task({
+		name : req.body.name
+	});
+	
+	list.save()
+	res.redirect("/")
 });
 
-// MAKE WORK ROUTE SO THAT THE USER CAN LIST THEIR WORK ACCORDINGLY
-
-app.get('/work', (req, res) => {
-	// HERE LIST IS THE PAGE NAME IN THIS CONTEXT list.ejs
-	res.render('list', { mainHeading: 'Work List', newItem: workList });
-});
-
-app.post('/work', (req, res) => {
-	const name = req.body.name;
-	workList.push(name);
-	res.redirect('/work');
-});
+app.post("/del" , (res,req) => {
+	// const delItem = req.body
+	//
+	// console.log(delItem)
+})
 
 app.listen(3000, () => {
 	console.log('running on port 3000');

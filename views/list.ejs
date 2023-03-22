@@ -6,10 +6,12 @@
 
 <div class="box">
 	<% for( item of newItem){ %>
-	<div class="item">
-		<input type="checkbox" />
-		<p><%= item.name %></p>
-	</div>
+		<form action="/del" method="post">
+			<div class="item">
+				<input type="checkbox"  name="checkbox"  value="<%= item %>"  onChange="this.form.submit()" />
+				<p><%= item.name %></p>
+			</div>
+		</form>
 	<% } %>
 
 	<!-- THIS FOR SEND REQUEST OT THE .get("/") ROUTE -->
