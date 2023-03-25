@@ -67,11 +67,15 @@ app.post('/', (req, res) => {
 	res.redirect("/")
 });
 
-app.post("/del" , (res,req) => {
-	// const delItem = req.body
-	//
-	// console.log(delItem)
-})
+app.post( '/del' , function ( req , res ) {
+	const delItem = req.body.checkbox;
+	const deleteItem = async () => {
+		const ans = await Task.deleteOne( { _id: delItem } );
+	};
+	
+	res.redirect("/")
+	deleteItem();
+} );
 
 app.listen(3000, () => {
 	console.log('running on port 3000');

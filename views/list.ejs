@@ -5,14 +5,15 @@
 </div>
 
 <div class="box">
-	<% for( item of newItem){ %>
+	<% newItem.forEach(function(item){ %>
 		<form action="/del" method="post">
 			<div class="item">
-				<input type="checkbox"  name="checkbox"  value="<%= item %>"  onChange="this.form.submit()" />
+				<input type="checkbox"  name="checkbox"  value="<%= item._id %>"  onChange="this.form.submit()" />
 				<p><%= item.name %></p>
 			</div>
 		</form>
-	<% } %>
+	<% }) %>
+
 
 	<!-- THIS FOR SEND REQUEST OT THE .get("/") ROUTE -->
 
