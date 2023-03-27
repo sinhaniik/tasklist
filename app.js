@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require( 'mongoose' );
 
-mongoose.connect( 'mongodb://127.0.0.1:27017/taskDB' ,
+mongoose.connect( 'mongodb+srv://nikhilsinha198:UXjkg727VEUi8pq5@cluster0.gzdbggi.mongodb.net/taskDB' ,
   { useNewUrlParser: true , useUnifiedTopology: true } );
 
 
